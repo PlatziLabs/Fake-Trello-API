@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 
 import { UsersController } from './controllers/users.controller';
+import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { UsersService } from './services/users.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -32,7 +33,7 @@ import { DatabaseModule } from '@db/database.module';
     }),
     DatabaseModule,
   ],
-  controllers: [UsersController],
+  controllers: [UsersController, AuthController],
   providers: [AuthService, UsersService, JwtStrategy, LocalStrategy],
 })
 export class AppModule {}
