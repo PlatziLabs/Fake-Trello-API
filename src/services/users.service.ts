@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { User } from '@db/entities/user.entity';
 import { Role } from '@models/role.model';
+import { generateImage } from '@utils/generate-img';
 import { CreateUserDto, UpdateUserDto } from '@dtos/user.dto';
 
 @Injectable()
@@ -28,6 +29,7 @@ export class UsersService {
   create(dto: CreateUserDto) {
     const user = this.usersRepo.create(dto);
     user.role = Role.ADMIN;
+    user.avatar = generateImage('face');
     return this.usersRepo.save(user);
   }
 

@@ -1,12 +1,12 @@
-import { Controller, Post, UseGuards, Req, Get } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Get, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 
 import { AuthService } from '@services/auth.service';
 import { UsersService } from '@services/users.service';
 import { TokenPayload } from '@models/token.model';
 import { User } from '@db/entities/user.entity';
+import { CheckEmailDto } from '@dtos/auth.dto';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 
@@ -26,6 +26,11 @@ export class AuthController {
       access_token: this.authService.generateJWT(user),
       user,
     };
+  }
+
+  @Post('is-available')
+  checkEmail(@Body() dto: CheckEmailDto) {
+    return this.authService.isAvailable(dto.email);
   }
 
   @UseGuards(JwtAuthGuard)

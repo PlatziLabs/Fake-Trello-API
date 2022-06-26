@@ -24,14 +24,14 @@ export class CreateUserDto {
   @IsAlphanumeric()
   @IsNotEmpty()
   password: string;
+}
 
+export class UpdateUserDto extends PartialType(CreateUserDto) {
   @ApiProperty()
   @IsUrl()
   @IsNotEmpty()
   avatar: string;
 }
-
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 export class ValidateUserDto {
   @ApiProperty()

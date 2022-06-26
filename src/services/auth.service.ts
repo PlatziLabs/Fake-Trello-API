@@ -20,6 +20,19 @@ export class AuthService {
     return null;
   }
 
+  async isAvailable(email: string) {
+    try {
+      await this.usersService.findByEmail(email);
+      return {
+        isAvailable: false,
+      };
+    } catch (error) {
+      return {
+        isAvailable: true,
+      };
+    }
+  }
+
   generateJWT(user: User) {
     const payload: TokenPayload = { userId: user.id };
     return this.jwtService.sign(payload);
