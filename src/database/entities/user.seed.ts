@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker/locale/es';
 
-import { User, Role } from './user.entity';
+import { User } from '@db/entities/user.entity';
+import { Role } from '@models/role.model';
 import { generateImage } from '@utils/generate-img';
 
 type NewUser = Omit<User, 'id'>;
@@ -10,7 +11,7 @@ export const generateOneUser = (): NewUser => {
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     email: faker.internet.email(),
     password: faker.internet.password(),
-    role: Role.admin,
+    role: Role.ADMIN,
     avatar: generateImage('face'),
   };
 };

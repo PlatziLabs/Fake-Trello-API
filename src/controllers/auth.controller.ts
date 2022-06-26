@@ -5,8 +5,10 @@ import { Request } from 'express';
 
 import { AuthService } from '@services/auth.service';
 import { UsersService } from '@services/users.service';
-import { Payload } from '@models/user.model';
+import { TokenPayload } from '@models/token.model';
 import { User } from '@db/entities/user.entity';
+import { LocalAuthGuard } from '@guards/local-auth.guard';
+import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -16,7 +18,7 @@ export class AuthController {
     private usersService: UsersService,
   ) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Req() req: Request) {
     const user = req.user as User;
@@ -26,10 +28,10 @@ export class AuthController {
     };
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   profile(@Req() req: Request) {
-    const user = req.user as Payload;
+    const user = req.user as TokenPayload;
     return this.usersService.findUserById(user?.userId);
   }
 }

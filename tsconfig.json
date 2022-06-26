@@ -26,6 +26,7 @@
       "@dtos/*": ["./src/dtos/*"],
       "@db/*": ["src/database/*"],
       "@config/*": ["src/config/*"],
+      "@guards/*": ["src/guards/*"],
     }
   },
   "ts-node": {

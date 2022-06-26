@@ -7,7 +7,7 @@ import {
   IsUrl,
   IsNumber,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -26,15 +26,12 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty()
-  @IsString()
-  @IsOptional()
-  role: string;
-
-  @ApiProperty()
   @IsUrl()
   @IsNotEmpty()
   avatar: string;
 }
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 export class ValidateUserDto {
   @ApiProperty()

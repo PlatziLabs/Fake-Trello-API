@@ -4,7 +4,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import config from '@config/config';
 
-import { Payload } from '@models/user.model';
+import { TokenPayload } from '@models/token.model';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: Payload) {
+  async validate(payload: TokenPayload) {
     return { userId: payload.userId };
   }
 }

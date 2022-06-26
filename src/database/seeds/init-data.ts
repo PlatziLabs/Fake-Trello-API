@@ -1,10 +1,13 @@
 import { dataSource } from '@db/orm-cli';
+import * as fs from 'fs';
 import { User } from '@db/entities/user.entity';
 import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
 
 (async () => {
+  fs.rmSync('./db', { recursive: true });
+  fs.rmSync('./db-shm', { recursive: true });
+  fs.rmSync('./db-wal', { recursive: true });
   await dataSource.initialize();
-  await dataSource.dropDatabase();
   await dataSource.synchronize();
 
   const userRepo = dataSource.getRepository(User);
@@ -23,5 +26,7 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
     },
   ];
   const usersV2 = generateManyUsers(5);
-  userRepo.insert([...usersV1, ...usersV2]);
+  await userRepo.insert([...usersV1, ...usersV2]);
+
+  await dataSource.destroy();
 })();
