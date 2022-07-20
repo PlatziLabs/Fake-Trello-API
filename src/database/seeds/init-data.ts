@@ -35,5 +35,5 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
   const users = await userRepo.find();
   console.log('USERS =>', users.length);
 
-  await dataSource.destroy();
+  // await dataSource.destroy();
 })();
