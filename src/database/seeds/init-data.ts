@@ -12,6 +12,7 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
     console.error(error);
   }
   await dataSource.initialize();
+  await dataSource.dropDatabase();
   await dataSource.synchronize();
 
   const userRepo = dataSource.getRepository(User);
@@ -31,6 +32,8 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
   ];
   const usersV2 = generateManyUsers(5);
   await userRepo.insert([...usersV1, ...usersV2]);
+  const users = await userRepo.findAndCount();
+  console.log('USERS =>', users.length);
 
   await dataSource.destroy();
 })();
