@@ -12,6 +12,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 import config from './config/config';
 import environments from './config/environments';
 import { DatabaseModule } from '@db/database.module';
+import { SeedService } from './services/seed.service';
 
 @Module({
   imports: [
@@ -34,6 +35,12 @@ import { DatabaseModule } from '@db/database.module';
     DatabaseModule,
   ],
   controllers: [UsersController, AuthController],
-  providers: [AuthService, UsersService, JwtStrategy, LocalStrategy],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    LocalStrategy,
+    SeedService,
+  ],
 })
 export class AppModule {}

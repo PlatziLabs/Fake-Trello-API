@@ -4,7 +4,7 @@ import { ENTITIES } from '@db/entities';
 
 export const dataSource = new DataSource({
   type: 'better-sqlite3',
-  database: 'db',
+  database: ':memory:',
   synchronize: true,
   logging: true,
   entities: [...ENTITIES],

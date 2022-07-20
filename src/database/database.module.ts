@@ -12,7 +12,7 @@ import config from '@config/config';
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => ({
         type: 'better-sqlite3',
-        database: 'db',
+        database: ':memory:',
         synchronize: true,
         logging: configService.env === 'dev',
         entities: [...ENTITIES],

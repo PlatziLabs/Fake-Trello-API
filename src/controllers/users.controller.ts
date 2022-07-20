@@ -17,10 +17,20 @@ import { RolesGuard } from '@guards/roles.guard';
 import { Roles } from '@guards/roles.decorator';
 import { Role } from '@models/role.model';
 
+import { SeedService } from '@services/seed.service';
+
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private seedService: SeedService,
+  ) {}
+  @Get('init')
+  init() {
+    return this.seedService.init();
+  }
+
   @Get()
   getAll() {
     return this.usersService.getAll();

@@ -1,14 +1,18 @@
-import { dataSource } from '@db/orm-cli';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { User } from '@db/entities/user.entity';
 import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
 
-export const initSeed = async () => {
-  try {
-    await dataSource.initialize();
-    await dataSource.dropDatabase();
-    await dataSource.synchronize();
+@Injectable()
+export class SeedService {
+  constructor(
+    @InjectRepository(User)
+    private usersRepo: Repository<User>,
+  ) {}
 
-    const userRepo = dataSource.getRepository(User);
+  async init() {
     const usersV1: Omit<User, 'id'>[] = [
       {
         ...generateOneUser(),
@@ -24,13 +28,7 @@ export const initSeed = async () => {
       },
     ];
     const usersV2 = generateManyUsers(5);
-    await userRepo.insert([...usersV1, ...usersV2]);
+    await this.usersRepo.insert([...usersV1, ...usersV2]);
     return true;
-  } catch (error) {
-    throw Error(error);
   }
-};
-
-(async () => {
-  await initSeed();
-})();
+}
