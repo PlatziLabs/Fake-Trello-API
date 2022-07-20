@@ -24,12 +24,12 @@ async function bootstrap() {
   app.useGlobalFilters(new TypeORMExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Nest Jira API')
+    .setTitle('Fake Trello API')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
