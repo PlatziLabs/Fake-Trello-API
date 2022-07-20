@@ -5,6 +5,7 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 
 import { UsersController } from './controllers/users.controller';
 import { AuthController } from './controllers/auth.controller';
+import { SeedController } from './controllers/seed.controller';
 import { AuthService } from './services/auth.service';
 import { UsersService } from './services/users.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
@@ -34,7 +35,7 @@ import { SeedService } from './services/seed.service';
     }),
     DatabaseModule,
   ],
-  controllers: [UsersController, AuthController],
+  controllers: [UsersController, AuthController, SeedController],
   providers: [
     AuthService,
     UsersService,

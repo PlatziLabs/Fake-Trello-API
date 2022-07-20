@@ -4,9 +4,7 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
 
 export const initSeed = async () => {
   try {
-    await dataSource.initialize();
     await dataSource.dropDatabase();
-    await dataSource.synchronize();
 
     const userRepo = dataSource.getRepository(User);
     const usersV1: Omit<User, 'id'>[] = [
