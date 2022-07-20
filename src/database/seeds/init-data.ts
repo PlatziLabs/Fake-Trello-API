@@ -4,9 +4,13 @@ import { User } from '@db/entities/user.entity';
 import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
 
 (async () => {
-  fs.rmSync('./db', { recursive: true });
-  fs.rmSync('./db-shm', { recursive: true });
-  fs.rmSync('./db-wal', { recursive: true });
+  try {
+    fs.rmSync('./db', { recursive: true });
+    fs.rmSync('./db-shm', { recursive: true });
+    fs.rmSync('./db-wal', { recursive: true });
+  } catch (error) {
+    console.error(error);
+  }
   await dataSource.initialize();
   await dataSource.synchronize();
 
