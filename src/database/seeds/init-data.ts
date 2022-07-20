@@ -32,7 +32,7 @@ import { generateManyUsers, generateOneUser } from '@db/entities/user.seed';
   ];
   const usersV2 = generateManyUsers(5);
   await userRepo.insert([...usersV1, ...usersV2]);
-  const users = await userRepo.findAndCount();
+  const users = await userRepo.find();
   console.log('USERS =>', users.length);
 
   await dataSource.destroy();
