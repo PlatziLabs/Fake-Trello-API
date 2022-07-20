@@ -22,8 +22,6 @@ import { Role } from '@models/role.model';
 export class UsersController {
   constructor(private usersService: UsersService) {}
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   getAll() {
     return this.usersService.getAll();
   }

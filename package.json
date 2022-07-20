@@ -24,7 +24,7 @@
     "migration:generate": "typeorm migration:generate",
     "migration:create": "typeorm migration:create",
     "migration:show": "typeorm migration:show",
-    "seed": "ts-node ./src/database/seeds/init-data.ts"
+    "seed": "ts-node ./src/database/seeds/init.seed.ts"
   },
   "dependencies": {
     "@faker-js/faker": "7.3.0",
