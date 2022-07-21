@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { User } from '@db/entities/user.entity';
 import { Role } from '@models/role.model';
@@ -26,9 +27,11 @@ export class UsersService {
     return this.usersRepo.findOneByOrFail({ email });
   }
 
-  create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto) {
     const user = this.usersRepo.create(dto);
     user.role = Role.ADMIN;
+    const hashPassword = await bcrypt.hash(user.role, 10);
+    user.password = hashPassword;
     user.avatar = generateImage('face');
     return this.usersRepo.save(user);
   }

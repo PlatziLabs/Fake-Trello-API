@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsUrl,
   IsNumber,
+  MinLength,
 } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
@@ -23,6 +24,9 @@ export class CreateUserDto {
   @ApiProperty()
   @IsAlphanumeric()
   @IsNotEmpty()
+  @MinLength(8, {
+    message: 'password is too short',
+  })
   password: string;
 }
 

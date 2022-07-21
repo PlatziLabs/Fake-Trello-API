@@ -11,7 +11,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 
 import { UsersService } from '@services/users.service';
-import { CreateUserDto, UpdateUserDto } from '@dtos/user.dto';
+import { UpdateUserDto } from '@dtos/user.dto';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { RolesGuard } from '@guards/roles.guard';
 import { Roles } from '@guards/roles.decorator';
@@ -25,11 +25,6 @@ export class UsersController {
   @Get()
   getAll() {
     return this.usersService.getAll();
-  }
-
-  @Post()
-  create(@Body() dto: CreateUserDto) {
-    return this.usersService.create(dto);
   }
 
   @Put(':id')
