@@ -28,6 +28,13 @@ export class UsersController {
     return this.usersService.getAll();
   }
 
+  @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  get(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findUserById(id);
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
