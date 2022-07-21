@@ -25,6 +25,7 @@ export class AuthService {
       if (isMatch) {
         const rtaUser = { ...user };
         delete rtaUser.password;
+        delete rtaUser.recoveryToken;
         return rtaUser;
       }
     }
@@ -47,6 +48,10 @@ export class AuthService {
   generateAccessToken(user: User) {
     const payload: TokenPayload = { userId: user.id };
     return this.jwtService.sign(payload);
+  }
+
+  generateRefreshToken(token: string) {
+    return this.jwtService.sign({ token });
   }
 
   async sendRecovery(email: string) {

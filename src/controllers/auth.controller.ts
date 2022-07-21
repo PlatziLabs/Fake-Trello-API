@@ -26,10 +26,10 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   login(@Req() req: Request) {
     const user = req.user as User;
+    const token = this.authService.generateAccessToken(user);
     return {
-      access_token: this.authService.generateAccessToken(user),
-      refresh_token: '---',
-      user,
+      access_token: token,
+      refresh_token: this.authService.generateRefreshToken(token),
     };
   }
 
