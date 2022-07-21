@@ -22,4 +22,8 @@ export class User {
 
   @Column()
   avatar: string;
+
+  @Exclude()
+  @Column({ nullable: true })
+  recoveryToken: string | null;
 }

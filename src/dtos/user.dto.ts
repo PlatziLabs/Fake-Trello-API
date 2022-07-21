@@ -22,7 +22,7 @@ export class CreateUserDto {
   name: string;
 
   @ApiProperty()
-  @IsAlphanumeric()
+  @IsString()
   @IsNotEmpty()
   @MinLength(8, {
     message: 'password is too short',

@@ -6,7 +6,7 @@ import { AuthService } from '@services/auth.service';
 import { UsersService } from '@services/users.service';
 import { TokenPayload } from '@models/token.model';
 import { User } from '@db/entities/user.entity';
-import { CheckEmailDto } from '@dtos/auth.dto';
+import { CheckEmailDto, ChangePasswordDto } from '@dtos/auth.dto';
 import { CreateUserDto } from '@dtos/user.dto';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
@@ -38,6 +38,16 @@ export class AuthController {
   @Post('is-available')
   checkEmail(@Body() dto: CheckEmailDto) {
     return this.authService.isAvailable(dto.email);
+  }
+
+  @Post('recovery')
+  recovery(@Body() dto: CheckEmailDto) {
+    return this.authService.sendRecovery(dto.email);
+  }
+
+  @Post('change-password')
+  changePassword(@Body() dto: ChangePasswordDto) {
+    return this.authService.changePassword(dto.token, dto.newPassword);
   }
 
   @UseGuards(JwtAuthGuard)

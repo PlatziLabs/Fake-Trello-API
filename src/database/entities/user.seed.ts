@@ -13,6 +13,7 @@ export const generateOneUser = (): NewUser => {
     password: faker.internet.password(),
     role: Role.ADMIN,
     avatar: generateImage('face'),
+    recoveryToken: null,
   };
 };
 

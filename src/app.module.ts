@@ -27,7 +27,7 @@ import { SeedService } from './services/seed.service';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigType<typeof config>) => {
         return {
-          secret: configService.jwtSecretKey,
+          secret: configService.tokenSecretKey,
           signOptions: { expiresIn: '5d' },
         };
       },
