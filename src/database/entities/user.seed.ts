@@ -11,7 +11,7 @@ export const generateOneUser = (): NewUser => {
     name: `${faker.name.firstName()} ${faker.name.lastName()}`,
     email: faker.internet.email(),
     password: faker.internet.password(),
-    role: Role.ADMIN,
+    role: Role.USER,
     avatar: generateImage('face'),
     recoveryToken: null,
   };

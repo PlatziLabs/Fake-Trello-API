@@ -10,6 +10,9 @@ import { CheckEmailDto, ChangePasswordDto } from '@dtos/auth.dto';
 import { CreateUserDto } from '@dtos/user.dto';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
+import { RolesGuard } from '@guards/roles.guard';
+import { Roles } from '@guards/roles.decorator';
+import { Role } from '@models/role.model';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,8 +22,8 @@ export class AuthController {
     private usersService: UsersService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @UseGuards(LocalAuthGuard)
   login(@Req() req: Request) {
     const user = req.user as User;
     return {
@@ -50,8 +53,9 @@ export class AuthController {
     return this.authService.changePassword(dto.token, dto.newPassword);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.USER)
   profile(@Req() req: Request) {
     const user = req.user as TokenPayload;
     return this.usersService.findUserById(user?.userId);

@@ -20,7 +20,7 @@ export class UsersService {
   }
 
   getAll() {
-    return this.usersRepo.find();
+    return this.usersRepo.findBy({ role: Role.USER });
   }
 
   findByEmail(email: string) {
