@@ -23,7 +23,8 @@ export class AuthController {
   login(@Req() req: Request) {
     const user = req.user as User;
     return {
-      access_token: this.authService.generateJWT(user),
+      access_token: this.authService.generateAccessToken(user),
+      refresh_token: '---',
       user,
     };
   }
