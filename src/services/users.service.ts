@@ -29,7 +29,7 @@ export class UsersService {
 
   async create(dto: CreateUserDto) {
     const user = this.usersRepo.create(dto);
-    user.role = Role.ADMIN;
+    user.role = Role.USER;
     const hashPassword = await bcrypt.hash(user.password, 10);
     user.password = hashPassword;
     user.avatar = generateImage('face');
