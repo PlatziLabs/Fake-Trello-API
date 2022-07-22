@@ -48,7 +48,7 @@ export class AuthService {
   generateAccessToken(user: User) {
     const payload: TokenPayload = { userId: user.id };
     return this.jwtService.sign(payload, {
-      expiresIn: '1m',
+      expiresIn: '5h',
       secret: this.configService.accessSecretKey,
     });
   }
