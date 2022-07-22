@@ -6,7 +6,11 @@ import { AuthService } from '@services/auth.service';
 import { UsersService } from '@services/users.service';
 import { TokenPayload } from '@models/token.model';
 import { User } from '@db/entities/user.entity';
-import { CheckEmailDto, ChangePasswordDto } from '@dtos/auth.dto';
+import {
+  CheckEmailDto,
+  ChangePasswordDto,
+  RefreshTokenDto,
+} from '@dtos/auth.dto';
 import { CreateUserDto } from '@dtos/user.dto';
 import { LocalAuthGuard } from '@guards/local-auth.guard';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
@@ -26,10 +30,9 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   login(@Req() req: Request) {
     const user = req.user as User;
-    const token = this.authService.generateAccessToken(user);
     return {
-      access_token: token,
-      refresh_token: this.authService.generateRefreshToken(token),
+      access_token: this.authService.generateAccessToken(user),
+      refresh_token: this.authService.generateRefreshToken(user),
     };
   }
 
@@ -51,6 +54,11 @@ export class AuthController {
   @Post('change-password')
   changePassword(@Body() dto: ChangePasswordDto) {
     return this.authService.changePassword(dto.token, dto.newPassword);
+  }
+
+  @Post('refresh-token')
+  refreshToken(@Body() dto: RefreshTokenDto) {
+    return this.authService.generateAccessTokenByRefreshToken(dto.refreshToken);
   }
 
   @Get('profile')

@@ -47,27 +47,34 @@ export class AuthService {
 
   generateAccessToken(user: User) {
     const payload: TokenPayload = { userId: user.id };
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(payload, {
+      expiresIn: '1m',
+      secret: this.configService.accessSecretKey,
+    });
   }
 
-  generateRefreshToken(token: string) {
-    return this.jwtService.sign({ token });
+  generateRefreshToken(user: User) {
+    const payload: TokenPayload = { userId: user.id };
+    return this.jwtService.sign(payload, {
+      expiresIn: '10h',
+      secret: this.configService.refreshSecretKey,
+    });
   }
 
   async sendRecovery(email: string) {
     const user = await this.findByEmail(email);
     const payload = { sub: user.id };
-    const token = this.jwtService.sign(payload, {
+    const recoveryToken = this.jwtService.sign(payload, {
       expiresIn: '5m',
       secret: this.configService.recoverySecretKey,
     });
-    const link = `http://myfrontend.com/recovery?token=${token}`;
-    user.recoveryToken = token;
+    const link = `http://myfrontend.com/recovery?token=${recoveryToken}`;
+    user.recoveryToken = recoveryToken;
     await this.usersRepo.save(user);
     // send email
     return {
       link,
-      token,
+      recoveryToken,
     };
   }
 
@@ -79,13 +86,18 @@ export class AuthService {
     return this.usersRepo.findOneByOrFail({ id });
   }
 
-  async changePassword(token: string, newPassword: string) {
+  async changePassword(recoveryToken: string, newPassword: string) {
     try {
-      const payload = this.jwtService.verify(token, {
+      const payload = this.jwtService.verify(recoveryToken, {
         secret: this.configService.recoverySecretKey,
       });
       const user = await this.findUserById(payload.sub);
-      if (user.recoveryToken !== token) {
+      if (user.email === 'nicolas@mail.com') {
+        throw new UnauthorizedException(
+          'Invalid change password to nicolas@mail.com',
+        );
+      }
+      if (user.recoveryToken !== recoveryToken) {
         throw new UnauthorizedException('Invalid');
       }
       const hash = await bcrypt.hash(newPassword, 10);
@@ -93,6 +105,23 @@ export class AuthService {
       user.password = hash;
       await this.usersRepo.save(user);
       return { message: 'password changed' };
+    } catch (error) {
+      throw new UnauthorizedException('Invalid');
+    }
+  }
+
+  async generateAccessTokenByRefreshToken(refreshToken: string) {
+    try {
+      const payload = this.jwtService.verify(refreshToken, {
+        secret: this.configService.refreshSecretKey,
+      });
+      const user = await this.findUserById(payload.sub);
+      const newAccessToken = this.generateAccessToken(user);
+      const newRefreshToken = this.generateRefreshToken(user);
+      return {
+        access_token: newAccessToken,
+        refresh_token: newRefreshToken,
+      };
     } catch (error) {
       throw new UnauthorizedException('Invalid');
     }

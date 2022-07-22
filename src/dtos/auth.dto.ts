@@ -22,3 +22,10 @@ export class ChangePasswordDto {
   @IsNotEmpty()
   token: string;
 }
+
+export class RefreshTokenDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  refreshToken: string;
+}
