@@ -4,7 +4,10 @@ import { User } from '@db/entities/user.entity';
 import { Role } from '@models/role.model';
 import { generateImage } from '@utils/generate-img';
 
-type NewUser = Omit<User, 'id'>;
+type NewUser = Omit<
+  User,
+  'id' | 'creationAt' | 'updatedAt' | 'boards' | 'cards'
+>;
 
 export const generateOneUser = (): NewUser => {
   return {
