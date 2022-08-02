@@ -167,6 +167,24 @@ export class SeedService {
     });
     await cardsRepo.save(card4Data);
 
+    const card5Data = cardsRepo.create({
+      title: 'Watch NestJS Path in Platzi',
+      description: faker.lorem.paragraphs(2),
+      position: 5,
+      board: board1,
+      list: list3,
+    });
+    await cardsRepo.save(card5Data);
+
+    const card6Data = cardsRepo.create({
+      title: 'follow @nicobytes in Twitter',
+      description: faker.lorem.paragraphs(2),
+      position: 6,
+      board: board1,
+      list: list1,
+    });
+    await cardsRepo.save(card6Data);
+
     console.log('cards loaded');
 
     // -------- COUNTERS --------
