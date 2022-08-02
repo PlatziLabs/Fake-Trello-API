@@ -152,7 +152,7 @@ export class SeedService {
     const card3Data = cardsRepo.create({
       title: 'Watch Angular Path in Platzi',
       description: faker.lorem.paragraphs(2),
-      position: 3,
+      position: 4,
       board: board1,
       list: list2,
     });
@@ -161,7 +161,7 @@ export class SeedService {
     const card4Data = cardsRepo.create({
       title: 'Play video games',
       description: faker.lorem.paragraphs(2),
-      position: 4,
+      position: 5,
       board: board1,
       list: list3,
     });
@@ -170,7 +170,7 @@ export class SeedService {
     const card5Data = cardsRepo.create({
       title: 'Watch NestJS Path in Platzi',
       description: faker.lorem.paragraphs(2),
-      position: 5,
+      position: 6,
       board: board1,
       list: list3,
     });
@@ -179,7 +179,7 @@ export class SeedService {
     const card6Data = cardsRepo.create({
       title: 'follow @nicobytes in Twitter',
       description: faker.lorem.paragraphs(2),
-      position: 6,
+      position: 3,
       board: board1,
       list: list1,
     });

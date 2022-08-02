@@ -20,6 +20,14 @@ export class BoardService {
       where: {
         id,
       },
+      order: {
+        lists: {
+          position: 'ASC',
+          cards: {
+            position: 'ASC',
+          },
+        },
+      },
       relations: ['members', 'lists', 'lists.cards', 'cards.list'],
     });
   }
