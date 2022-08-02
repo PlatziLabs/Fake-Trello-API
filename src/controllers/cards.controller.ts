@@ -1,8 +1,16 @@
-import { Controller, UseGuards, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Post,
+  Body,
+  Put,
+  ParseIntPipe,
+  Param,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CardService } from '@services/card.service';
-import { CreateCardDto } from '@dtos/card.dto';
+import { CreateCardDto, UpdateCardDto } from '@dtos/card.dto';
 import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { RolesGuard } from '@guards/roles.guard';
 import { Roles } from '@guards/roles.decorator';
@@ -16,7 +24,14 @@ export class CardsController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.USER)
-  getBoards(@Body() dto: CreateCardDto) {
+  create(@Body() dto: CreateCardDto) {
     return this.cardService.create(dto);
+  }
+
+  @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCardDto) {
+    return this.cardService.update(id, dto);
   }
 }
