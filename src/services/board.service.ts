@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Board } from '@db/entities/board.entity';
 import { CreateBoardDto, UpdateBoardDto } from '@dtos/board.dto';
