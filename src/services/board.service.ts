@@ -16,7 +16,12 @@ export class BoardService {
   ) {}
 
   findById(id: Board['id']) {
-    return this.boardsRepo.findOneByOrFail({ id });
+    return this.boardsRepo.findOneOrFail({
+      where: {
+        id,
+      },
+      relations: ['members', 'lists', 'cards'],
+    });
   }
 
   async findByUserId(id: User['id']) {
