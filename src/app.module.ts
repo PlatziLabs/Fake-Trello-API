@@ -4,12 +4,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 
 import { UsersController } from './controllers/users.controller';
+import { CardsController } from './controllers/cards.controller';
 import { MeController } from './controllers/me.controller';
 import { AuthController } from './controllers/auth.controller';
 import { BoardController } from './controllers/boards.controller';
 import { SeedController } from './controllers/seed.controller';
 import { AuthService } from './services/auth.service';
 import { UsersService } from './services/users.service';
+import { CardService } from './services/card.service';
 import { BoardService } from './services/board.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -43,11 +45,13 @@ import { SeedService } from './services/seed.service';
     SeedController,
     BoardController,
     MeController,
+    CardsController,
   ],
   providers: [
     AuthService,
     UsersService,
     BoardService,
+    CardService,
     JwtStrategy,
     LocalStrategy,
     SeedService,
