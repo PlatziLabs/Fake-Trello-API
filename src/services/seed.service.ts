@@ -130,10 +130,12 @@ export class SeedService {
 
     // -------- CARDS --------
 
+    const buffer = 65535;
+
     const card1Data = cardsRepo.create({
       title: 'Make dishes',
       description: faker.lorem.paragraphs(2),
-      position: 1,
+      position: 65535,
       members: [valeUser],
       board: board1,
       list: list1,
@@ -143,7 +145,7 @@ export class SeedService {
     const card2Data = cardsRepo.create({
       title: 'Buy a unicorn',
       description: faker.lorem.paragraphs(2),
-      position: 2,
+      position: 65535 * 2,
       board: board1,
       list: list1,
     });
@@ -152,7 +154,7 @@ export class SeedService {
     const card3Data = cardsRepo.create({
       title: 'Watch Angular Path in Platzi',
       description: faker.lorem.paragraphs(2),
-      position: 1,
+      position: 65535,
       board: board1,
       list: list2,
     });
@@ -161,7 +163,7 @@ export class SeedService {
     const card4Data = cardsRepo.create({
       title: 'Play video games',
       description: faker.lorem.paragraphs(2),
-      position: 1,
+      position: 65535,
       board: board1,
       list: list3,
     });
@@ -170,7 +172,7 @@ export class SeedService {
     const card5Data = cardsRepo.create({
       title: 'Watch NestJS Path in Platzi',
       description: faker.lorem.paragraphs(2),
-      position: 2,
+      position: 65535 * 2,
       board: board1,
       list: list3,
     });
@@ -179,7 +181,7 @@ export class SeedService {
     const card6Data = cardsRepo.create({
       title: 'follow @nicobytes in Twitter',
       description: faker.lorem.paragraphs(2),
-      position: 3,
+      position: 65535 * 3,
       board: board1,
       list: list1,
     });
