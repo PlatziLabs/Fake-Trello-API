@@ -20,7 +20,7 @@ export class BoardService {
       where: {
         id,
       },
-      relations: ['members', 'lists', 'cards'],
+      relations: ['members', 'lists', 'lists.cards', 'cards.list'],
     });
   }
 
