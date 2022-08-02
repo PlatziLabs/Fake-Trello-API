@@ -33,6 +33,7 @@ export class CardService {
 
   async update(id: Card['id'], changes: UpdateCardDto) {
     const card = await this.findById(id);
+    this.cardsRepo.merge(card, changes);
     if (changes?.boardId) {
       const board = await this.boardsRepo.findOneByOrFail({
         id: changes?.boardId,
@@ -45,7 +46,6 @@ export class CardService {
       });
       card.list = list;
     }
-    this.cardsRepo.merge(card, changes);
     return this.cardsRepo.save(card);
   }
 }

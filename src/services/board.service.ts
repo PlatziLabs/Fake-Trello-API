@@ -27,6 +27,9 @@ export class BoardService {
             position: 'ASC',
           },
         },
+        cards: {
+          position: 'ASC',
+        },
       },
       relations: ['members', 'lists', 'lists.cards', 'cards.list'],
     });
