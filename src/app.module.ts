@@ -4,6 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigType } from '@nestjs/config';
 
 import { UsersController } from './controllers/users.controller';
+import { ListController } from './controllers/lists.controller';
+import { ListService } from './services/list.service';
 import { CardsController } from './controllers/cards.controller';
 import { MeController } from './controllers/me.controller';
 import { AuthController } from './controllers/auth.controller';
@@ -46,6 +48,7 @@ import { SeedService } from './services/seed.service';
     BoardController,
     MeController,
     CardsController,
+    ListController,
   ],
   providers: [
     AuthService,
@@ -55,6 +58,7 @@ import { SeedService } from './services/seed.service';
     JwtStrategy,
     LocalStrategy,
     SeedService,
+    ListService,
   ],
 })
 export class AppModule {}

@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   UseGuards,
   Post,
+  Req,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 
 import { BoardService } from '@services/board.service';
@@ -16,6 +18,7 @@ import { JwtAuthGuard } from '@guards/jwt-auth.guard';
 import { RolesGuard } from '@guards/roles.guard';
 import { Roles } from '@guards/roles.decorator';
 import { Role } from '@models/role.model';
+import { TokenPayload } from '@models/token.model';
 
 @ApiTags('boards')
 @Controller('boards')
@@ -46,8 +49,9 @@ export class BoardController {
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.USER)
-  create(@Body() dto: CreateBoardDto) {
-    return this.boardService.create(dto);
+  create(@Req() req: Request, @Body() dto: CreateBoardDto) {
+    const user = req.user as TokenPayload;
+    return this.boardService.create(user.userId, dto);
   }
 
   @Put(':id')

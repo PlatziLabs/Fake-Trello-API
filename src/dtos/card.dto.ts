@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDecimal, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateCardDto {
@@ -9,7 +9,7 @@ export class CreateCardDto {
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   description: string;
 
   @ApiProperty()

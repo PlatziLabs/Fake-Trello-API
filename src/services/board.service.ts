@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Board } from '@db/entities/board.entity';
+import { List } from '@db/entities/list.entity';
 import { CreateBoardDto, UpdateBoardDto } from '@dtos/board.dto';
 import { User } from '@db/entities/user.entity';
 
@@ -13,6 +14,8 @@ export class BoardService {
     private boardsRepo: Repository<Board>,
     @InjectRepository(User)
     private usersRepo: Repository<User>,
+    @InjectRepository(List)
+    private listsRepo: Repository<List>,
   ) {}
 
   findById(id: Board['id']) {
@@ -53,9 +56,31 @@ export class BoardService {
     });
   }
 
-  async create(dto: CreateBoardDto) {
-    const newBoard = this.boardsRepo.create(dto);
-    return this.boardsRepo.save(newBoard);
+  async create(userId: User['id'], dto: CreateBoardDto) {
+    const user = await this.usersRepo.findOneByOrFail({ id: userId });
+    const newBoard = this.boardsRepo.create({
+      ...dto,
+      members: [user],
+    });
+    const board = await this.boardsRepo.save(newBoard);
+    await this.listsRepo.save([
+      {
+        title: 'ToDo',
+        position: 1,
+        board,
+      },
+      {
+        title: 'Doing',
+        position: 2,
+        board,
+      },
+      {
+        title: 'Done',
+        position: 3,
+        board,
+      },
+    ]);
+    return this.findById(board.id);
   }
 
   async update(id: Board['id'], changes: UpdateBoardDto) {

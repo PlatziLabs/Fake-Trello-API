@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Card } from '@db/entities/card.entity';
 import { Board } from '@db/entities/board.entity';
 import { List } from '@db/entities/list.entity';
+import { User } from '@db/entities/user.entity';
 import { CreateCardDto, UpdateCardDto } from '@dtos/card.dto';
 
 @Injectable()
@@ -15,18 +16,22 @@ export class CardService {
     @InjectRepository(Board)
     private boardsRepo: Repository<Board>,
     @InjectRepository(List)
-    private listRepo: Repository<List>,
+    private listsRepo: Repository<List>,
+    @InjectRepository(User)
+    private usersRepo: Repository<User>,
   ) {}
 
   findById(id: Card['id']) {
     return this.cardsRepo.findOneByOrFail({ id });
   }
 
-  async create(dto: CreateCardDto) {
+  async create(userId: User['id'], dto: CreateCardDto) {
+    const user = await this.usersRepo.findOneByOrFail({ id: userId });
     const newCard = this.cardsRepo.create(dto);
+    newCard.members = [user];
     const board = await this.boardsRepo.findOneByOrFail({ id: dto.boardId });
     newCard.board = board;
-    const list = await this.listRepo.findOneByOrFail({ id: dto.listId });
+    const list = await this.listsRepo.findOneByOrFail({ id: dto.listId });
     newCard.list = list;
     return this.cardsRepo.save(newCard);
   }
@@ -41,7 +46,7 @@ export class CardService {
       card.board = board;
     }
     if (changes?.listId) {
-      const list = await this.listRepo.findOneByOrFail({
+      const list = await this.listsRepo.findOneByOrFail({
         id: changes?.listId,
       });
       card.list = list;

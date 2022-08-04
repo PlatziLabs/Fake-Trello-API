@@ -19,6 +19,7 @@ export class SeedService {
   async init() {
     await this.dataSource.dropDatabase();
     await this.dataSource.synchronize();
+    const bufferPosition = 65535;
 
     // -------- REPOS --------
 
@@ -107,30 +108,49 @@ export class SeedService {
 
     const list1Data = listsRepo.create({
       title: 'ToDo',
-      position: 1,
+      position: bufferPosition,
       board: board1,
     });
     const list1 = await listsRepo.save(list1Data);
 
     const list2Data = listsRepo.create({
       title: 'Doing',
-      position: 2,
+      position: bufferPosition * 2,
       board: board1,
     });
     const list2 = await listsRepo.save(list2Data);
 
     const list3Data = listsRepo.create({
       title: 'Done',
-      position: 3,
+      position: bufferPosition * 3,
       board: board1,
     });
     const list3 = await listsRepo.save(list3Data);
 
+    const list4Data = listsRepo.create({
+      title: 'ToDo',
+      position: bufferPosition,
+      board: board2,
+    });
+    await listsRepo.save(list4Data);
+
+    const list5Data = listsRepo.create({
+      title: 'Doing',
+      position: bufferPosition * 2,
+      board: board2,
+    });
+    await listsRepo.save(list5Data);
+
+    const list6Data = listsRepo.create({
+      title: 'Done',
+      position: bufferPosition * 3,
+      board: board2,
+    });
+    await listsRepo.save(list6Data);
+
     console.log('lists loaded');
 
     // -------- CARDS --------
-
-    const bufferPosition = 65535;
 
     const card1Data = cardsRepo.create({
       title: 'Make dishes',

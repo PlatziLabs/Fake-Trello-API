@@ -21,8 +21,8 @@ export class Card {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
+  @Column({ nullable: true })
+  description?: string;
 
   @Column({ type: 'int' })
   position: number;
