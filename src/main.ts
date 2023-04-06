@@ -3,6 +3,7 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { TypeORMExceptionFilter } from '@utils/filters/typeorm.filter';
 import { AppModule } from './app.module';
+import { SeedService } from './services/seed.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,6 +30,9 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+
+  const seedService = app.get(SeedService);
+  await seedService.init();
 
   await app.listen(process.env.PORT || 3000);
 }
